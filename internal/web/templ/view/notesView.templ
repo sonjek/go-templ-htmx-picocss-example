@@ -1,0 +1,38 @@
+package view
+
+import "github.com/sonjek/go-templ-htmx-picocss-example/internal/notes"
+import "strconv"
+
+templ noteItem(note notes.Note) {
+    <article>
+        <header>
+        </header>
+        <p>
+            { note.Body }
+        </p>
+        <footer>
+        </footer>
+    </article>
+}
+
+templ NotesView(notes []notes.Note) {
+    <div id="notes">
+        <h2 class="align-center">Notes</h2>
+        <div class="grid">
+            <p>Total notes: <ins>{ strconv.Itoa(len(notes)) }</ins></p>
+        </div>
+
+        <div id="dialog"/>
+        <div id="error"/>
+
+        if len(notes) != 0 {
+            for _, note := range notes {
+                @noteItem(note)
+            }
+        } else {
+            <p class="align-center">
+                Currently, there are no records. Create a new entry for display.
+            </p>
+        }
+    </div>
+}

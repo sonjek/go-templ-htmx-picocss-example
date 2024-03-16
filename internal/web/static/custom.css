@@ -1,0 +1,19 @@
+:root {
+  --pico-nav-element-spacing-vertical: 0.5rem;
+  --pico-nav-element-spacing-horizontal:0.5rem;
+  --pico-nav-link-spacing-vertical: 0rem;
+  --pico-border-radius: 0.3rem;
+}
+
+.page-content {
+  max-width: 800px;
+}
+
+.align-center {
+  text-align: center;
+}
+
+.align-right {
+  display: block;
+  text-align: right;
+}

@@ -1,2 +1,5 @@
 bin
 tmp
+
+# Ignore compiled templ files
+internal/web/**/*_templ.go
