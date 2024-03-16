@@ -1,0 +1,2 @@
+# Ref: https://docs.docker.com/reference/dockerfile/#dockerignore-file
+.git
