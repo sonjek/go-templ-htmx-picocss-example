@@ -23,33 +23,39 @@ type CreateNote struct {
 
 var notes []Note = []Note{
 	{
-		Id:      4,
+		Id:      5,
 		Title:   "htmx.js",
 		Body:    "</> htmx - high power tools for HTML",
 		Created: time.Date(2022, 8, 10, 21, 21, 0, 0, time.UTC),
 	},
 	{
-		Id:      3,
+		Id:      4,
 		Title:   "templ",
 		Body:    "A language for writing HTML user interfaces in Go.",
 		Created: time.Date(2021, 5, 16, 22, 33, 0, 0, time.UTC),
 	},
 	{
-		Id:      2,
+		Id:      3,
 		Title:   "Pico CSS",
 		Body:    "Minimal CSS Framework for semantic HTML",
 		Created: time.Date(2019, 12, 11, 10, 8, 0, 0, time.UTC),
 	},
 	{
-		Id:      1,
+		Id:      2,
 		Title:   "GoLang",
 		Body:    "The Go programming language.",
 		Created: time.Date(2018, 9, 25, 22, 20, 0, 0, time.UTC),
 	},
+	{
+		Id:      1,
+		Title:   "Ionic",
+		Body:    "Premium hand-crafted icons built by Ionic, for Ionic apps and web apps everywhere.",
+		Created: time.Date(2013, 10, 30, 12, 34, 0, 0, time.UTC),
+	},
 }
 
 // Last note ID
-var currentID uint32 = 4
+var currentID uint32 = uint32(len(notes))
 
 func getNextID() uint32 {
 	return atomic.AddUint32(&currentID, 1)
@@ -66,7 +72,7 @@ func GetNoteByID(idStr string) (Note, error) {
 			return note, nil
 		}
 	}
-	return Note{}, fmt.Errorf("note with id %d not found", id)
+	return Note{}, fmt.Errorf("note with ID %d not found", id)
 }
 
 func (n Note) FormatCreatedAgo() string {
@@ -117,5 +123,5 @@ func Delete(idStr string) error {
 		}
 
 	}
-	return fmt.Errorf("note with id %d not found", id)
+	return fmt.Errorf("note with ID %d not found", id)
 }
