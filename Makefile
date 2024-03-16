@@ -32,3 +32,13 @@ build: get-deps generate
 .PHONY: start
 start: get-deps generate
 	go run ./cmd/app
+
+## get-air: Install live reload server github.com/cosmtrek/air@latest
+.PHONY: get-air
+get-air:
+	go install github.com/cosmtrek/air@latest
+
+## air: Build and start application in live reload mode via air
+.PHONY: air
+air: get-deps generate
+	air
