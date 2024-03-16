@@ -1,0 +1,20 @@
+package components
+
+import (
+    "strconv"
+    "github.com/sonjek/go-templ-htmx-picocss-example/internal/notes"
+)
+
+templ ModalEditNote(note notes.Note) {
+    <dialog open id="dialog">
+        <form
+            hx-put={ "/note/" + strconv.Itoa(note.Id) }
+            hx-target="#notes"
+            hx-target-error="#error"
+            hx-indicator="#loading"
+            hx-on::before-request="document.getElementById('error').innerHTML = ''"
+        >
+            @ModalForm("Edit note", "Updating Note...", "Update", note.Title, note.Body)
+        </form>
+    </dialog>
+}

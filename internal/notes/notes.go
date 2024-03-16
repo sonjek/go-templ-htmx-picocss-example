@@ -5,6 +5,8 @@ import (
 	"strconv"
 	"sync/atomic"
 	"time"
+
+	"github.com/dustin/go-humanize"
 )
 
 type Note struct {
@@ -65,6 +67,14 @@ func GetNoteByID(idStr string) (Note, error) {
 		}
 	}
 	return Note{}, fmt.Errorf("note with id %d not found", id)
+}
+
+func (n Note) FormatCreatedAgo() string {
+	return humanize.Time(n.Created)
+}
+
+func (n Note) FormatCreated() string {
+	return n.Created.Format("2006-01-02 15:04")
 }
 
 func GetAll() []Note {

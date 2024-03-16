@@ -1,0 +1,39 @@
+package components
+
+templ ModalForm(title, loaderMsg, action, noteTitle, noteBody string) {
+    <article>
+        <header class="align-center">
+            <h2>{ title }</h2>
+        </header>
+
+        <div id="error"></div>
+        <fieldset>
+            <label>Title
+                <input name="title" placeholder="Note title" value={ noteTitle } autocomplete="title" required />
+                <small>
+                    Empty value allows to show a browser verification error message.
+                </small>
+            </label>
+            <label>Body
+                <textarea name="body" placeholder="Write note body..." aria-label="Body of note">
+                    { noteBody }
+                </textarea>
+                <small>
+                    Empty value allows to show a backend verification error message.
+                </small>
+            </label>
+        </fieldset>
+        <span aria-busy="true" class="htmx-indicator align-center" id="loading">{ loaderMsg }</span>
+
+        <footer>
+            <button>{ action }</button>
+            <button id="close-dialog-btn" class="outline secondary">Cancel</button>
+        </footer>
+    </article>
+    <script>
+        document.getElementById('close-dialog-btn').addEventListener('click', function() {
+            document.getElementById('dialog').innerHTML = '';
+            document.getElementById('dialog').close();
+        });
+    </script>
+}

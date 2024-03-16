@@ -17,3 +17,13 @@
   display: block;
   text-align: right;
 }
+
+.error-msg {
+  padding: 1em;
+  color: red;
+}
+
+.htmx-indicator {
+  display: block;
+  text-align: center;
+}

@@ -1,0 +1,15 @@
+package components
+
+templ ModalAddNote() {
+    <dialog open hx-ext='response-targets' id="dialog">
+        <form
+            hx-post="/notes"
+            hx-target="#notes"
+            hx-target-error="#error"
+            hx-indicator="#loading"
+            hx-on::before-request="document.getElementById('error').innerHTML = ''"
+        >
+            @ModalForm("Add note", "Creating Note...", "Create", "", "")
+        </form>
+    </dialog>
+}
