@@ -2,6 +2,7 @@ package web
 
 import (
 	"embed"
+	"fmt"
 	"io/fs"
 	"log"
 	"net/http"
@@ -140,5 +141,6 @@ func Start() {
 
 	mux.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.FS(fileSystem))))
 
+	fmt.Println("Starting web interface on port: 8080")
 	log.Fatal(http.ListenAndServe(":8080", mux))
 }
