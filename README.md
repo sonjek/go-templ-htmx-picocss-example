@@ -11,14 +11,16 @@ Available makefile actions:
 Usage:  make COMMAND
 
 Commands:
-  help       Display help
-  tools      Install github.com/a-h/templ/cmd/templ@latest
-  get-deps   Download go dependencies
-  generate   Compile templ files
-  build      Compile templ files and build application
-  start      Build and start application
-  get-air    Install live reload server github.com/cosmtrek/air@latest
-  air        Build and start application in live reload mode via air
+  help           Display help
+  tools          Install github.com/a-h/templ/cmd/templ@latest
+  get-deps       Download go dependencies
+  generate       Compile templ files
+  build          Compile templ files and build application
+  start          Build and start application
+  get-air        Install live reload server github.com/cosmtrek/air@latest
+  air            Build and start application in live reload mode via air
+  build-docker   Build Docker container image with this app
+  run-docker     Run Docker container image with this app
 ```
 
 ## Local Development Setup

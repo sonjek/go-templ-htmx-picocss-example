@@ -42,3 +42,13 @@ get-air:
 .PHONY: air
 air: get-deps generate
 	air
+
+## build-docker: Build Docker container image with this app
+.PHONY: build-docker
+build-docker:
+	docker build -t $(shell basename $(PWD)):latest --no-cache -f Dockerfile .
+
+## run-docker: Run Docker container image with this app
+.PHONY: run-docker
+run-docker:
+	docker run --rm -it -p 8080:8080 $(shell basename $(PWD)):latest
