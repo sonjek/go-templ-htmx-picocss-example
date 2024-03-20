@@ -6,7 +6,7 @@ templ ModalAddNote() {
             hx-post="/notes"
             hx-target="#notes"
             hx-target-error="#error"
-            hx-indicator="#loading"
+            hx-indicator=".htmx-indicator"
             hx-on::before-request="document.getElementById('error').innerHTML = ''"
         >
             @ModalForm("Add note", "Creating Note...", "Create", "", "")
