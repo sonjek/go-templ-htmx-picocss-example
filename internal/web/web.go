@@ -6,6 +6,7 @@ import (
 	"io/fs"
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/a-h/templ"
@@ -17,7 +18,25 @@ import (
 
 func getNotesFunc(w http.ResponseWriter, r *http.Request) {
 	log.Println("GetNotes")
-	page.Index(view.NotesView(notes.GetAll())).Render(r.Context(), w)
+
+	pageN := 1
+	notesOnPage := notes.GetNotesPage(pageN)
+	page.Index(view.NotesView(notesOnPage, notes.Count(), pageN)).Render(r.Context(), w)
+}
+
+func getMoreNotesFunc(w http.ResponseWriter, r *http.Request) {
+	pageN := 1
+	if p := r.URL.Query().Get("page"); p != "" {
+		if parsedPage, err := strconv.Atoi(p); err == nil {
+			pageN = parsedPage
+		}
+	}
+	log.Printf("NotesPage: %d\n", pageN)
+
+	notesOnPage := notes.GetNotesPage(pageN)
+
+	time.Sleep(250 * time.Millisecond)
+	components.NotesList(notesOnPage, pageN).Render(r.Context(), w)
 }
 
 func addNoteModalFunc(w http.ResponseWriter, r *http.Request) {
@@ -45,8 +64,9 @@ func addNoteFunc(w http.ResponseWriter, r *http.Request) {
 		Body:  r.FormValue("body"),
 	})
 
-	time.Sleep(1 * time.Second)
-	view.NotesView(notes.GetAll()).Render(r.Context(), w)
+	time.Sleep(250 * time.Millisecond)
+	pageN := 1
+	view.NotesContent(notes.GetAll(), notes.Count(), pageN).Render(r.Context(), w)
 }
 
 func editNoteModalFunc(w http.ResponseWriter, r *http.Request) {
@@ -88,8 +108,9 @@ func editNoteFunc(w http.ResponseWriter, r *http.Request) {
 	note.Body = r.FormValue("body")
 	notes.Update(note)
 
-	time.Sleep(1 * time.Second)
-	view.NotesView(notes.GetAll()).Render(r.Context(), w)
+	time.Sleep(250 * time.Millisecond)
+	pageN := 1
+	view.NotesContent(notes.GetAll(), notes.Count(), pageN).Render(r.Context(), w)
 }
 
 func deleteNoteFunc(w http.ResponseWriter, r *http.Request) {
@@ -99,7 +120,8 @@ func deleteNoteFunc(w http.ResponseWriter, r *http.Request) {
 		components.ErrorMsg(err.Error()).Render(r.Context(), w)
 		return
 	}
-	view.NotesView(notes.GetAll()).Render(r.Context(), w)
+	pageN := 1
+	view.NotesContent(notes.GetAll(), notes.Count(), pageN).Render(r.Context(), w)
 }
 
 //go:embed static/*
@@ -125,6 +147,7 @@ func Start() {
 		templ.WithStatus(http.StatusNotFound)))
 
 	mux.HandleFunc("/notes", getNotesFunc)
+	mux.HandleFunc("/notes/load-more", getMoreNotesFunc)
 
 	mux.HandleFunc("/add", addNoteModalFunc)
 	mux.HandleFunc("POST /notes", addNoteFunc)

@@ -1,0 +1,61 @@
+package components
+
+import "github.com/sonjek/go-templ-htmx-picocss-example/internal/notes"
+import "strconv"
+
+templ noteData(note notes.Note) {
+    <header>
+        <nav>
+            <ul>
+                <li><strong>{ note.Title }</strong></li>
+            </ul>
+            <ul>
+                <li>
+                    <details class="dropdown">
+                        <summary>
+                            <ion-icon name="menu-outline"/>
+                        </summary>
+                        <ul dir="rtl">
+                            <li><small><a class="contrast"
+                                hx-trigger="click"
+                                hx-delete={ "/edit/" + strconv.Itoa(note.Id) }
+                                hx-target="#dialog"
+                                hx-target-error="#error"
+                                hx-swap="innerHTML">Edit <ion-icon name="create"/></a></small></li>
+                            <li><small><a class="contrast"
+                                hx-trigger="click"
+                                hx-delete={ "/note/" + strconv.Itoa(note.Id) }
+                                hx-target="#notes"
+                                hx-target-error="#error"
+                                hx-swap="innerHTML">Delete <ion-icon name="trash"/></a></small></li>
+                        </ul>
+                    </details>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <p>
+        { note.Body }
+    </p>
+    <footer>
+        <small class="align-right"><ion-icon name="calendar-outline"></ion-icon> <ins data-tooltip={ note.FormatCreated() }>{ note.FormatCreatedAgo() }</ins></small>
+    </footer>
+}
+
+templ NoteItem(note notes.Note) {
+	<article>
+		@noteData(note)
+	</article>
+}
+
+templ LastNote(note notes.Note, page int) {
+	<article
+        hx-get={ "/notes/load-more?page=" + strconv.Itoa(page + 1) }
+        hx-trigger="revealed"
+        hx-target="#notes"
+        hx-swap="beforeend"
+        hx-indicator=".htmx-indicator">
+		@noteData(note)
+	</article>
+}
+
