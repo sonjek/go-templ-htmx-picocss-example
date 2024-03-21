@@ -109,8 +109,7 @@ func editNoteFunc(w http.ResponseWriter, r *http.Request) {
 	notes.Update(note)
 
 	time.Sleep(250 * time.Millisecond)
-	pageN := 1
-	view.NotesContent(notes.GetAll(), notes.Count(), pageN).Render(r.Context(), w)
+	components.NoteItem(note).Render(r.Context(), w)
 }
 
 func deleteNoteFunc(w http.ResponseWriter, r *http.Request) {

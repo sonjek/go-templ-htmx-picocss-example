@@ -44,13 +44,14 @@ templ noteData(note notes.Note) {
 }
 
 templ NoteItem(note notes.Note) {
-	<article>
+	<article id={ "note-" + strconv.Itoa(note.Id) }>
 		@noteData(note)
 	</article>
 }
 
 templ LastNote(note notes.Note, page int) {
 	<article
+        id={ "note-" + strconv.Itoa(note.Id) }
         hx-get={ "/notes/load-more?page=" + strconv.Itoa(page + 1) }
         hx-push-url="false"
         hx-trigger="revealed"

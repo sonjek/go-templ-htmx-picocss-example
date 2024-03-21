@@ -15,7 +15,7 @@ templ NotesContent(notes []notes.Note, totalNotes int, page int) {
                     hx-get="/add"
                     hx-target="#dialog"
                     hx-target-error="#error"
-                    hx-swap="innerHTML">Add new note</a></small>
+                    hx-swap="outerHTML">Add new note</a></small>
             </p>
         </div>
 
@@ -38,8 +38,9 @@ templ NotesView(notes []notes.Note, totalNotes int, page int) {
 
     <script>
         closeDialog = () => {
-            document.getElementById('dialog').innerHTML = ''
-            document.getElementById('dialog').close()
+            let dialog = document.getElementById('dialog')
+            dialog.innerHTML = ''
+            dialog.close()
         }
         clearError = () => {
             document.getElementById('error').innerHTML = ''

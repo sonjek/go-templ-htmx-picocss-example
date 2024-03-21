@@ -9,10 +9,12 @@ templ ModalEditNote(note notes.Note) {
     <dialog open id="dialog">
         <form
             hx-put={ "/note/" + strconv.Itoa(note.Id) }
-            hx-target="#notes"
+            hx-target={ "#note-" + strconv.Itoa(note.Id) }
             hx-target-error="#error"
+            hx-swap="outerHTML"
             hx-indicator=".htmx-indicator"
             hx-on::before-request="clearError()"
+            hx-on::after-request="if (event.detail.xhr.status == 200) closeDialog()"
         >
             @ModalForm("Edit note", "Updating Note...", "Update", note.Title, note.Body)
         </form>
