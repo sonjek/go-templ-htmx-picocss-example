@@ -21,14 +21,14 @@ templ noteData(note notes.Note) {
                                 hx-get={ "/edit/" + strconv.Itoa(note.Id) }
                                 hx-target="#dialog"
                                 hx-target-error="#error"
-                                hx-swap="innerHTML">Edit <ion-icon name="create"/></a></small></li>
+                                hx-swap="outerHTML">Edit <ion-icon name="create"/></a></small></li>
                             <li><small><a class="contrast"
                                 hx-trigger="click"
                                 hx-delete={ "/note/" + strconv.Itoa(note.Id) }
                                 hx-confirm={"Are you sure you want to delete note: " + note.Title + "?" }
                                 hx-target="#notes"
                                 hx-target-error="#error"
-                                hx-swap="innerHTML">Delete <ion-icon name="trash"/></a></small></li>
+                                hx-swap="outerHTML">Delete <ion-icon name="trash"/></a></small></li>
                         </ul>
                     </details>
                 </li>
