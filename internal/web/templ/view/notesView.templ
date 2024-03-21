@@ -35,4 +35,14 @@ templ NotesContent(notes []notes.Note, totalNotes int, page int) {
 templ NotesView(notes []notes.Note, totalNotes int, page int) {
     @NotesContent(notes, totalNotes, page)
     <div aria-busy="true" class="htmx-indicator align-center">Loading more notes...</div>
+
+    <script>
+        closeDialog = () => {
+            document.getElementById('dialog').innerHTML = ''
+            document.getElementById('dialog').close()
+        }
+        clearError = () => {
+            document.getElementById('error').innerHTML = ''
+        }
+    </script>
 }

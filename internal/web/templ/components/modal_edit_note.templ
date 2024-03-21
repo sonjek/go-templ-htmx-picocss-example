@@ -12,7 +12,7 @@ templ ModalEditNote(note notes.Note) {
             hx-target="#notes"
             hx-target-error="#error"
             hx-indicator=".htmx-indicator"
-            hx-on::before-request="document.getElementById('error').innerHTML = ''"
+            hx-on::before-request="clearError()"
         >
             @ModalForm("Edit note", "Updating Note...", "Update", note.Title, note.Body)
         </form>

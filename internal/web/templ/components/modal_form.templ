@@ -32,8 +32,7 @@ templ ModalForm(title, loaderMsg, action, noteTitle, noteBody string) {
     </article>
     <script>
         document.getElementById('close-dialog-btn').addEventListener('click', function() {
-            document.getElementById('dialog').innerHTML = '';
-            document.getElementById('dialog').close();
-        });
+            closeDialog()
+        })
     </script>
 }
