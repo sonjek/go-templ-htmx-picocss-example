@@ -18,7 +18,7 @@ templ noteData(note notes.Note) {
                         <ul dir="rtl">
                             <li><small><a class="contrast"
                                 hx-trigger="click"
-                                hx-delete={ "/edit/" + strconv.Itoa(note.Id) }
+                                hx-get={ "/edit/" + strconv.Itoa(note.Id) }
                                 hx-target="#dialog"
                                 hx-target-error="#error"
                                 hx-swap="innerHTML">Edit <ion-icon name="create"/></a></small></li>
