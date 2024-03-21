@@ -52,6 +52,7 @@ templ NoteItem(note notes.Note) {
 templ LastNote(note notes.Note, page int) {
 	<article
         hx-get={ "/notes/load-more?page=" + strconv.Itoa(page + 1) }
+        hx-push-url="false"
         hx-trigger="revealed"
         hx-target="#notes"
         hx-swap="beforeend"
