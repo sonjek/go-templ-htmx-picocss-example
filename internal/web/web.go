@@ -66,7 +66,8 @@ func addNoteFunc(w http.ResponseWriter, r *http.Request) {
 
 	time.Sleep(250 * time.Millisecond)
 	pageN := 1
-	view.NotesContent(notes.GetAll(), pageN).Render(r.Context(), w)
+	notesOnPage := notes.GetNotesPage(pageN)
+	view.NotesContent(notesOnPage, pageN).Render(r.Context(), w)
 }
 
 func editNoteModalFunc(w http.ResponseWriter, r *http.Request) {
