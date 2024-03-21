@@ -5,6 +5,10 @@
   --pico-border-radius: 0.3rem;
 }
 
+article > header {
+  margin-bottom: 0;
+}
+
 .page-content {
   max-width: 800px;
 }
@@ -24,6 +28,10 @@
 }
 
 .htmx-indicator {
-  display: block;
+  display: none;
   text-align: center;
+}
+
+.htmx-request {
+  display: block;
 }
