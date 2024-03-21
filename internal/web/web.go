@@ -21,7 +21,7 @@ func getNotesFunc(w http.ResponseWriter, r *http.Request) {
 
 	pageN := 1
 	notesOnPage := notes.GetNotesPage(pageN)
-	page.Index(view.NotesView(notesOnPage, notes.Count(), pageN)).Render(r.Context(), w)
+	page.Index(view.NotesView(notesOnPage, pageN)).Render(r.Context(), w)
 }
 
 func getMoreNotesFunc(w http.ResponseWriter, r *http.Request) {
@@ -66,7 +66,7 @@ func addNoteFunc(w http.ResponseWriter, r *http.Request) {
 
 	time.Sleep(250 * time.Millisecond)
 	pageN := 1
-	view.NotesContent(notes.GetAll(), notes.Count(), pageN).Render(r.Context(), w)
+	view.NotesContent(notes.GetAll(), pageN).Render(r.Context(), w)
 }
 
 func editNoteModalFunc(w http.ResponseWriter, r *http.Request) {
@@ -120,7 +120,7 @@ func deleteNoteFunc(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	pageN := 1
-	view.NotesContent(notes.GetAll(), notes.Count(), pageN).Render(r.Context(), w)
+	view.NotesContent(notes.GetAll(), pageN).Render(r.Context(), w)
 }
 
 //go:embed static/*

@@ -2,13 +2,11 @@ package view
 
 import "github.com/sonjek/go-templ-htmx-picocss-example/internal/notes"
 import "github.com/sonjek/go-templ-htmx-picocss-example/internal/web/templ/components"
-import "strconv"
 
-templ NotesContent(notes []notes.Note, totalNotes int, page int) {
+templ NotesContent(notes []notes.Note, page int) {
     <div id="notes">
         <h2 class="align-center">Notes</h2>
         <div class="grid">
-            <p>Total notes: <ins>{ strconv.Itoa(totalNotes) }</ins></p>
             <p class="align-right">
                 <small><a class="contrast"
                     hx-trigger="click"
@@ -32,8 +30,8 @@ templ NotesContent(notes []notes.Note, totalNotes int, page int) {
     </div>
 }
 
-templ NotesView(notes []notes.Note, totalNotes int, page int) {
-    @NotesContent(notes, totalNotes, page)
+templ NotesView(notes []notes.Note, page int) {
+    @NotesContent(notes, page)
     <div aria-busy="true" class="htmx-indicator align-center">Loading more notes...</div>
 
     <script>
