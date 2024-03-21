@@ -5,18 +5,6 @@ import "github.com/sonjek/go-templ-htmx-picocss-example/internal/web/templ/compo
 
 templ NotesContent(notes []notes.Note, page int) {
     <div id="notes">
-        <h2 class="align-center">Notes</h2>
-        <div class="grid">
-            <p class="align-right">
-                <small><a class="contrast"
-                    hx-trigger="click"
-                    hx-get="/add"
-                    hx-target="#dialog"
-                    hx-target-error="#error"
-                    hx-swap="outerHTML">Add new note</a></small>
-            </p>
-        </div>
-
         <div id="dialog"/>
         <div id="error"/>
 
@@ -31,6 +19,17 @@ templ NotesContent(notes []notes.Note, page int) {
 }
 
 templ NotesView(notes []notes.Note, page int) {
+    <h2 class="align-center">Notes</h2>
+    <div class="grid">
+        <p class="align-right">
+            <small><a class="contrast"
+                hx-trigger="click"
+                hx-get="/add"
+                hx-target="#dialog"
+                hx-target-error="#error"
+                hx-swap="outerHTML">Add new note</a></small>
+        </p>
+    </div>
     @NotesContent(notes, page)
     <div aria-busy="true" class="htmx-indicator align-center">Loading more notes...</div>
 
