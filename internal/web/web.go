@@ -119,8 +119,6 @@ func deleteNoteFunc(w http.ResponseWriter, r *http.Request) {
 		components.ErrorMsg(err.Error()).Render(r.Context(), w)
 		return
 	}
-	pageN := 1
-	view.NotesContent(notes.GetAll(), pageN).Render(r.Context(), w)
 }
 
 //go:embed static/*
