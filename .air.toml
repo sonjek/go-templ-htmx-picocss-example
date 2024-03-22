@@ -1,13 +1,10 @@
 root = "."
-testdata_dir = "testdata"
 tmp_dir = "tmp"
 
 [build]
-  args_bin = []
   bin = "bin/app"
   cmd = "make build"
   delay = 1000
-  exclude_dir = ["bin", "tmp", "vendor", "testdata"]
   exclude_file = ["README.md"]
   exclude_regex = ["_templ.go", "_test.go"]
   exclude_unchanged = false
@@ -15,13 +12,10 @@ tmp_dir = "tmp"
   full_bin = ""
   include_dir = []
   include_ext = ["go", "templ", "html", "css"]
-  include_file = []
   kill_delay = "0s"
   log = "build-errors.log"
   poll = false
   poll_interval = 0
-  post_cmd = []
-  pre_cmd = []
   rerun = false
   rerun_delay = 500
   send_interrupt = false
