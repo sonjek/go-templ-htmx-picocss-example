@@ -1,12 +1,22 @@
 :root {
   --pico-nav-element-spacing-vertical: 0.5rem;
   --pico-nav-element-spacing-horizontal:0.5rem;
+  --pico-form-element-spacing-vertical: 0.5rem;
   --pico-nav-link-spacing-vertical: 0rem;
   --pico-border-radius: 0.3rem;
+  --pico-spacing: 0.9rem;
+}
+
+fieldset {
+  padding: 0 10px;
+}
+
+button {
+  padding: 0.3rem;
 }
 
 article > header {
-  margin-bottom: 0;
+  margin-bottom: 0.25rem;
 }
 
 .page-content {
