@@ -42,5 +42,18 @@ templ NotesView(notes []notes.Note) {
         clearError = () => {
             document.getElementById('error').innerHTML = ''
         }
+
+        // Fill custom html when deleting last note
+        document.body.addEventListener('htmx:afterRequest', function(e) {
+            let d = e.detail
+            if (d.requestConfig.verb === 'delete' && d.elt.id === 'notes' && d.elt.childElementCount === 2 ) {
+                document.getElementById('notes').innerHTML = `
+                    <div id="dialog"/>
+                    <div id="error"/>
+                    <p class="align-center">
+                    Currently, there are no records. Create a new entry for display.
+                    </p>`
+            }
+        });
     </script>
 }
