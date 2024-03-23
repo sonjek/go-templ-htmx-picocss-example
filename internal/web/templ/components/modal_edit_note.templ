@@ -14,7 +14,7 @@ templ ModalEditNote(note notes.Note) {
             hx-swap="outerHTML"
             hx-indicator=".htmx-indicator"
             hx-on::before-request="clearError()"
-            hx-on::after-request="if (event.detail.xhr.status == 200) closeDialog()"
+            hx-on::after-request="closeDialogOnSuccess()"
         >
             @ModalForm("Edit note", "Updating Note...", "Update", note.Title, note.Body)
         </form>

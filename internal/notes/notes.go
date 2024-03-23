@@ -91,7 +91,7 @@ func Count() int {
 	return len(notes)
 }
 
-func Add(n CreateNote) {
+func Add(n CreateNote) Note {
 	note := Note{
 		Id:      int(getNextID()),
 		Title:   n.Title,
@@ -99,6 +99,7 @@ func Add(n CreateNote) {
 		Created: time.Now(),
 	}
 	notes = append([]Note{note}, notes...)
+	return note
 }
 
 func Update(n Note) {

@@ -64,14 +64,14 @@ func addNoteFunc(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	notes.Add(notes.CreateNote{
+	note := notes.Add(notes.CreateNote{
 		Title: r.FormValue("title"),
 		Body:  r.FormValue("body"),
 	})
 
 	time.Sleep(250 * time.Millisecond)
-	notesOnPage := notes.GetLatestNotes()
-	view.NotesContent(notesOnPage).Render(r.Context(), w)
+
+	components.NoteItem(note).Render(r.Context(), w)
 }
 
 func editNoteModalFunc(w http.ResponseWriter, r *http.Request) {

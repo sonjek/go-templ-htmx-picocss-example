@@ -3,21 +3,6 @@ package view
 import "github.com/sonjek/go-templ-htmx-picocss-example/internal/notes"
 import "github.com/sonjek/go-templ-htmx-picocss-example/internal/web/templ/components"
 
-templ NotesContent(notes []notes.Note) {
-    <div id="notes">
-        <div id="dialog"/>
-        <div id="error"/>
-
-        if len(notes) != 0 {
-            @components.NotesList(notes)
-        } else {
-            <p class="align-center">
-                Currently, there are no records. Create a new entry for display.
-            </p>
-        }
-    </div>
-}
-
 templ NotesView(notes []notes.Note) {
     <h2 class="align-center">Notes</h2>
     <div class="grid">
@@ -30,14 +15,26 @@ templ NotesView(notes []notes.Note) {
                 hx-swap="outerHTML">Add new note</a></small>
         </p>
     </div>
-    @NotesContent(notes)
+    <div id="dialog"/>
+    <div id="error"/>
+    <div id="notes">
+        if len(notes) != 0 {
+            @components.NotesList(notes)
+        } else {
+            <p class="align-center">
+                Currently, there are no records. Create a new entry for display.
+            </p>
+        }
+    </div>
     <div aria-busy="true" class="htmx-indicator align-center">Loading more notes...</div>
 
     <script>
-        closeDialog = () => {
-            let dialog = document.getElementById('dialog')
-            dialog.innerHTML = ''
-            dialog.close()
+        closeDialogOnSuccess = () => {
+            if (event.detail.xhr.status == 200) {
+                let dialog = document.getElementById('dialog')
+                dialog.innerHTML = ''
+                dialog.close()
+            }
         }
         clearError = () => {
             document.getElementById('error').innerHTML = ''
