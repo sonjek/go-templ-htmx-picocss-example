@@ -44,7 +44,7 @@ templ NotesView(notes []notes.Note) {
         }
 
         // Fill custom html when deleting last note
-        document.body.addEventListener('htmx:afterRequest', function(e) {
+        htmx.on('htmx:afterRequest', function(e) {
             let d = e.detail
             if (d.requestConfig.verb === 'delete' && d.elt.id === 'notes' && d.elt.childElementCount === 2 ) {
                 document.getElementById('notes').innerHTML = `
