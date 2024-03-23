@@ -42,16 +42,13 @@ templ NotesView(notes []notes.Note) {
 
         // Fill custom html when deleting last note
         htmx.on('htmx:afterRequest', function(e) {
-            let d = e.detail
-            if (d.requestConfig.verb === 'delete' && d.elt.id === 'notes' ) {
+            if (e.detail.requestConfig.verb === 'delete' && e.detail.elt.id === 'notes' ) {
                 var notesElement = document.getElementById('notes')
                 if (notesElement.childElementCount === 0) {
                     notesElement.innerHTML = `
-                    <div id="dialog"/>
-                    <div id="error"/>
-                    <p class="align-center">Currently, there are no records. Create a new entry for display.</p>`
+                        <p class="align-center">Currently, there are no records. Create a new entry for display.</p>`
                 }
             }
-        });
+        })
     </script>
 }
