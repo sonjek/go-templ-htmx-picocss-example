@@ -2,11 +2,11 @@ package components
 
 import "github.com/sonjek/go-templ-htmx-picocss-example/internal/notes"
 
-templ NotesList(notes []notes.Note, page int) {
+templ NotesList(notes []notes.Note) {
     if len(notes) != 0 {
         for index, note := range notes {
             if (index == len(notes)-1) {
-                @LastNote(note, page)
+                @LastNote(note)
             } else {
                 @NoteItem(note)
             }

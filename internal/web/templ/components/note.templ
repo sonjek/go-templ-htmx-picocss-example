@@ -49,12 +49,12 @@ templ NoteItem(note notes.Note) {
 	</article>
 }
 
-templ LastNote(note notes.Note, page int) {
+templ LastNote(note notes.Note) {
 	<article
         id={ "note-" + strconv.Itoa(note.Id) }
-        hx-get={ "/notes/load-more?page=" + strconv.Itoa(page + 1) }
+        hx-get={ "/notes/load-more?note=" + strconv.Itoa(note.Id) }
         hx-push-url="false"
-        hx-trigger="revealed"
+        hx-trigger="intersect once"
         hx-target="#notes"
         hx-swap="beforeend"
         hx-indicator=".htmx-indicator">

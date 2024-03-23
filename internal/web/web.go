@@ -19,24 +19,29 @@ import (
 func getNotesFunc(w http.ResponseWriter, r *http.Request) {
 	log.Println("GetNotes")
 
-	pageN := 1
-	notesOnPage := notes.GetNotesPage(pageN)
-	page.Index(view.NotesView(notesOnPage, pageN)).Render(r.Context(), w)
+	notesOnPage := notes.GetLatestNotes()
+	page.Index(view.NotesView(notesOnPage)).Render(r.Context(), w)
 }
 
 func getMoreNotesFunc(w http.ResponseWriter, r *http.Request) {
-	pageN := 1
-	if p := r.URL.Query().Get("page"); p != "" {
-		if parsedPage, err := strconv.Atoi(p); err == nil {
-			pageN = parsedPage
+	noteID := -1
+	if p := r.URL.Query().Get("note"); p != "" {
+		if parsedNoteID, err := strconv.Atoi(p); err == nil {
+			noteID = parsedNoteID
 		}
 	}
-	log.Printf("NotesPage: %d\n", pageN)
+	log.Printf("MoreNotes noteID: %d\n", noteID)
 
-	notesOnPage := notes.GetNotesPage(pageN)
+	if noteID == -1 {
+		w.WriteHeader(http.StatusBadRequest)
+		components.ErrorMsg("note is empty").Render(r.Context(), w)
+		return
+	}
+
+	notesOnPage := notes.GetNextNotes(noteID)
 
 	time.Sleep(250 * time.Millisecond)
-	components.NotesList(notesOnPage, pageN).Render(r.Context(), w)
+	components.NotesList(notesOnPage).Render(r.Context(), w)
 }
 
 func addNoteModalFunc(w http.ResponseWriter, r *http.Request) {
@@ -65,9 +70,8 @@ func addNoteFunc(w http.ResponseWriter, r *http.Request) {
 	})
 
 	time.Sleep(250 * time.Millisecond)
-	pageN := 1
-	notesOnPage := notes.GetNotesPage(pageN)
-	view.NotesContent(notesOnPage, pageN).Render(r.Context(), w)
+	notesOnPage := notes.GetLatestNotes()
+	view.NotesContent(notesOnPage).Render(r.Context(), w)
 }
 
 func editNoteModalFunc(w http.ResponseWriter, r *http.Request) {

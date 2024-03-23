@@ -126,23 +126,38 @@ func Delete(idStr string) error {
 	return fmt.Errorf("note with ID %d not found", id)
 }
 
-func GetNotesPage(page int) []Note {
-	perPage := 2
+func findIndex(arr []Note, n int) (int, bool) {
+	var index int = -1
 
-	// Calculate the starting and ending index
-	startIndex := (page - 1) * perPage
-	endIndex := startIndex + perPage
+	// Initialize to -1 to represent no ID found yet
+	maxID := -1
 
-	// Adjust startIndex if it exceeds the length of items
-	if startIndex > len(notes) {
-		startIndex = startIndex - 1
+	for i, elem := range arr {
+		if elem.Id < n && elem.Id > maxID {
+			index = i
+			maxID = elem.Id
+		}
 	}
+
+	return index, index != -1
+}
+
+func GetNextNotes(noteID int) []Note {
+	startIndex, found := findIndex(notes, noteID)
+	if !found {
+		return []Note{}
+	}
+
+	available := notes[startIndex:]
+	endIndex := startIndex + 1
 
 	// Adjust endIndex if it exceeds the length of items
-	if endIndex > len(notes) {
-		endIndex = len(notes)
+	if endIndex > len(available) {
+		endIndex = len(available)
 	}
+	return available[:endIndex]
+}
 
-	// Slice the items according to pagination
-	return notes[startIndex:endIndex]
+func GetLatestNotes() []Note {
+	return GetNextNotes(int(currentID + 1))
 }
