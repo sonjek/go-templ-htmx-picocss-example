@@ -20,12 +20,13 @@ templ NotesView(notes []notes.Note) {
     <div id="notes">
         if len(notes) != 0 {
             @components.NotesList(notes)
-        } else {
-            <p class="align-center">
-                Currently, there are no records. Create a new entry for display.
-            </p>
         }
     </div>
+
+    <p id="no-notes" class="align-center">
+        Currently, there are no records. Create a new entry for display.
+    </p>
+
     <div aria-busy="true" class="htmx-indicator align-center">Loading more notes...</div>
 
     <script>
@@ -40,15 +41,12 @@ templ NotesView(notes []notes.Note) {
             document.getElementById('error').innerHTML = ''
         }
 
-        // Fill custom html when deleting last note
+        // Show text when deleting last note
         htmx.on('htmx:afterRequest', function(e) {
-            if (e.detail.requestConfig.verb === 'delete' && e.detail.elt.id === 'notes' ) {
-                var notesElement = document.getElementById('notes')
-                if (notesElement.childElementCount === 0) {
-                    notesElement.innerHTML = `
-                        <p class="align-center">Currently, there are no records. Create a new entry for display.</p>`
-                }
-            }
+            // console.log(e.detail)
+            let notesElement = document.getElementById('notes')
+            let noNotesElement = document.getElementById('no-notes')
+            noNotesElement.style.display = notesElement.childElementCount === 0 ? 'block' : 'none'
         })
     </script>
 }
