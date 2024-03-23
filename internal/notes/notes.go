@@ -149,9 +149,9 @@ func GetNextNotes(noteID int) []Note {
 	}
 
 	available := notes[startIndex:]
-	endIndex := startIndex + 1
 
 	// Adjust endIndex if it exceeds the length of items
+	endIndex := 3
 	if endIndex > len(available) {
 		endIndex = len(available)
 	}
