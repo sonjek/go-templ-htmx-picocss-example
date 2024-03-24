@@ -2,6 +2,9 @@
 
 Example CRUD app based on [Go](https://github.com/golang/go) + [templ](https://github.com/a-h/templ) + [</>htmx](https://github.com/bigskysoftware/htmx) + [PicoCSS](https://github.com/picocss/pico) + [Ionicons](https://github.com/ionic-team/ionicons)
 
+
+![demo](demo.gif)
+
 Features:
 - Comfortable and flexible component based templates via [templ](https://github.com/a-h/templ)
 - CRUD functionality
