@@ -17,10 +17,7 @@ import (
 )
 
 func getNotesFunc(w http.ResponseWriter, r *http.Request) {
-	log.Println("GetNotes")
-
-	notesOnPage := notes.GetLatestNotes()
-	page.Index(view.NotesView(notesOnPage)).Render(r.Context(), w)
+	page.Index(view.NotesView(notes.GetLatestNotes())).Render(r.Context(), w)
 }
 
 func getMoreNotesFunc(w http.ResponseWriter, r *http.Request) {
@@ -30,7 +27,6 @@ func getMoreNotesFunc(w http.ResponseWriter, r *http.Request) {
 			noteID = parsedNoteID
 		}
 	}
-	log.Printf("MoreNotes noteID: %d\n", noteID)
 
 	if noteID == -1 {
 		w.WriteHeader(http.StatusBadRequest)
@@ -45,13 +41,10 @@ func getMoreNotesFunc(w http.ResponseWriter, r *http.Request) {
 }
 
 func addNoteModalFunc(w http.ResponseWriter, r *http.Request) {
-	log.Println("AddNoteModal")
 	components.ModalAddNote().Render(r.Context(), w)
 }
 
 func addNoteFunc(w http.ResponseWriter, r *http.Request) {
-	log.Println("AddNote")
-
 	if r.FormValue("title") == "" {
 		w.WriteHeader(http.StatusBadRequest)
 		components.ErrorMsg("Title is empty").Render(r.Context(), w)
@@ -75,8 +68,6 @@ func addNoteFunc(w http.ResponseWriter, r *http.Request) {
 }
 
 func editNoteModalFunc(w http.ResponseWriter, r *http.Request) {
-	log.Println("GetEditModal " + r.PathValue("id"))
-
 	note, err := notes.GetNoteByID(r.PathValue("id"))
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
@@ -88,8 +79,6 @@ func editNoteModalFunc(w http.ResponseWriter, r *http.Request) {
 }
 
 func editNoteFunc(w http.ResponseWriter, r *http.Request) {
-	log.Println("EditNote")
-
 	if r.FormValue("title") == "" {
 		w.WriteHeader(http.StatusBadRequest)
 		components.ErrorMsg("Title is empty").Render(r.Context(), w)
@@ -118,11 +107,9 @@ func editNoteFunc(w http.ResponseWriter, r *http.Request) {
 }
 
 func deleteNoteFunc(w http.ResponseWriter, r *http.Request) {
-	log.Println("DeleteNote")
 	if err := notes.Delete(r.PathValue("id")); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		components.ErrorMsg(err.Error()).Render(r.Context(), w)
-		return
 	}
 }
 
@@ -167,5 +154,11 @@ func Start() {
 	mux.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.FS(fileSystem))))
 
 	fmt.Println("Starting web interface on port: 8080")
-	log.Fatal(http.ListenAndServe(":8080", mux))
+
+	// Create stack for handle multiple middlewares
+	middlewares := CreateMiddlewareStack(
+		LoggingMiddleware,
+		DemoMiddleware,
+	)
+	log.Fatal(http.ListenAndServe(":8080", middlewares(mux)))
 }
