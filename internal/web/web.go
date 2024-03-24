@@ -152,6 +152,7 @@ func Start() {
 	}
 
 	mux.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.FS(fileSystem))))
+	mux.Handle("/favicon.ico", http.StripPrefix("/", http.FileServer(http.FS(fileSystem))))
 
 	fmt.Println("Starting web interface on port: 8080")
 
