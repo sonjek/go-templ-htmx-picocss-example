@@ -30,11 +30,14 @@ templ NotesView(notes []notes.Note) {
     <div aria-busy="true" class="htmx-indicator align-center">Loading more notes...</div>
 
     <script>
+        closeDialog = () => {
+            let dialog = document.getElementById('dialog')
+            dialog.innerHTML = ''
+            dialog.close()
+        }
         closeDialogOnSuccess = () => {
             if (event.detail.xhr.status == 200) {
-                let dialog = document.getElementById('dialog')
-                dialog.innerHTML = ''
-                dialog.close()
+                closeDialog()
             }
         }
         clearError = () => {
