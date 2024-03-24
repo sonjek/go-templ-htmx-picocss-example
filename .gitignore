@@ -1,5 +1,7 @@
 bin
 tmp
 
+.DS_Store
+
 # Ignore compiled templ files
 internal/web/**/*_templ.go
