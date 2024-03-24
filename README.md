@@ -12,6 +12,7 @@ Features:
 - Error handling on user interface side
 - Infinite scroll (Lazy Loading)
 - User frendly interface
+- Preserve static files
 
 ## Develop
 
