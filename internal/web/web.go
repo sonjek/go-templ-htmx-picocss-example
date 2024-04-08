@@ -154,12 +154,12 @@ func Start() {
 	mux.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.FS(fileSystem))))
 	mux.Handle("/favicon.ico", http.StripPrefix("/", http.FileServer(http.FS(fileSystem))))
 
-	fmt.Println("Starting web interface on port: 8080")
+	fmt.Println("Starting web interface on port: 8089")
 
 	// Create stack for handle multiple middlewares
 	middlewares := CreateMiddlewareStack(
 		LoggingMiddleware,
 		DemoMiddleware,
 	)
-	log.Fatal(http.ListenAndServe(":8080", middlewares(mux)))
+	log.Fatal(http.ListenAndServe(":8089", middlewares(mux)))
 }

@@ -48,7 +48,7 @@ go mod download
 ~/go/bin/templ generate
 (✓) Complete [ updates=7 duration=13.893847ms ]
 go run ./cmd/app
-Starting web interface on port: 8080
+Starting web interface on port: 8089
 ```
 
-You should now be able to access application in your web browser at http://localhost:8080
+You should now be able to access application in your web browser at http://localhost:8089
