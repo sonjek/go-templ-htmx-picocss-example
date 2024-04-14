@@ -28,9 +28,9 @@ jobs:
       with:
         go-version-file: go.mod
         check-latest: true
-    - name: Build
+    - name: Run build
       run: make build
-    - name: Test
+    - name: Run tests
       run: make test
   build:
     if: needs.files-changed.outputs.app == 'true' || needs.files-changed.outputs.actions == 'true'
