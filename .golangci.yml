@@ -1,0 +1,56 @@
+linters:
+  # https://golangci-lint.run/usage/linters/#enabled-by-default
+  enable:
+    - asciicheck
+    - depguard
+    - dupword
+    - durationcheck
+    - errorlint
+    - gosec
+    - gocritic
+    - gofmt
+    - gofumpt
+    - goimports
+    - misspell
+    - nolintlint
+    - predeclared
+    - revive
+    - testifylint
+    - unconvert
+
+linters-settings:
+  gofmt:
+    simplify: true
+  depguard:
+    rules:
+      main:
+        deny:
+          - pkg: "io/ioutil"
+            desc: "Use corresponding 'os' or 'io' functions instead."
+          - pkg: "github.com/pkg/errors"
+            desc: "Use 'errors' or 'fmt' instead of github.com/pkg/errors"
+          - pkg: "golang.org/x/exp/slices"
+            desc: "Use 'slices' instead."
+
+  revive:
+    # https://github.com/mgechev/revive/blob/master/defaults.toml
+    # https://github.com/mgechev/revive/blob/master/RULES_DESCRIPTIONS.md
+    enable-all-rules: true
+    ignore-generated-header: true
+    severity: warning
+    rules:
+      - name: line-length-limit
+        severity: error
+        arguments: [120]
+      - name: add-constant
+        disabled: true
+      - name: cognitive-complexity
+        disabled: true
+      - name: cyclomatic
+        disabled: true
+      - name: unused-receiver
+        disabled: true
+      - name: unhandled-error
+        arguments:
+        - "fmt.Println"
+        - "fmt.Printf"

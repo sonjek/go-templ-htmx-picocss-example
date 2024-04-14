@@ -10,7 +10,7 @@ import (
 )
 
 type Note struct {
-	Id      int       `form:"id" json:"id"`
+	ID      int       `form:"id" json:"id"`
 	Title   string    `form:"title" json:"title" binding:"required"`
 	Body    string    `form:"body" json:"body" binding:"required"`
 	Created time.Time `json:"created"`
@@ -21,41 +21,43 @@ type CreateNote struct {
 	Body  string `form:"body" json:"body" binding:"required"`
 }
 
-var notes []Note = []Note{
-	{
-		Id:      5,
-		Title:   "htmx.js",
-		Body:    "</> htmx - high power tools for HTML",
-		Created: time.Date(2022, 8, 10, 21, 21, 0, 0, time.UTC),
-	},
-	{
-		Id:      4,
-		Title:   "templ",
-		Body:    "A language for writing HTML user interfaces in Go.",
-		Created: time.Date(2021, 5, 16, 22, 33, 0, 0, time.UTC),
-	},
-	{
-		Id:      3,
-		Title:   "Pico CSS",
-		Body:    "Minimal CSS Framework for semantic HTML",
-		Created: time.Date(2019, 12, 11, 10, 8, 0, 0, time.UTC),
-	},
-	{
-		Id:      2,
-		Title:   "GoLang",
-		Body:    "The Go programming language.",
-		Created: time.Date(2018, 9, 25, 22, 20, 0, 0, time.UTC),
-	},
-	{
-		Id:      1,
-		Title:   "Ionic",
-		Body:    "Premium hand-crafted icons built by Ionic, for Ionic apps and web apps everywhere.",
-		Created: time.Date(2013, 10, 30, 12, 34, 0, 0, time.UTC),
-	},
-}
+var (
+	notes = []Note{
+		{
+			ID:      5,
+			Title:   "htmx.js",
+			Body:    "</> htmx - high power tools for HTML",
+			Created: time.Date(2022, 8, 10, 21, 21, 0, 0, time.UTC),
+		},
+		{
+			ID:      4,
+			Title:   "templ",
+			Body:    "A language for writing HTML user interfaces in Go.",
+			Created: time.Date(2021, 5, 16, 22, 33, 0, 0, time.UTC),
+		},
+		{
+			ID:      3,
+			Title:   "Pico CSS",
+			Body:    "Minimal CSS Framework for semantic HTML",
+			Created: time.Date(2019, 12, 11, 10, 8, 0, 0, time.UTC),
+		},
+		{
+			ID:      2,
+			Title:   "GoLang",
+			Body:    "The Go programming language.",
+			Created: time.Date(2018, 9, 25, 22, 20, 0, 0, time.UTC),
+		},
+		{
+			ID:      1,
+			Title:   "Ionic",
+			Body:    "Premium hand-crafted icons built by Ionic, for Ionic apps and web apps everywhere.",
+			Created: time.Date(2013, 10, 30, 12, 34, 0, 0, time.UTC),
+		},
+	}
 
-// Last note ID
-var currentID uint32 = uint32(len(notes))
+	// Last note ID
+	currentID = uint32(len(notes))
+)
 
 func getNextID() uint32 {
 	return atomic.AddUint32(&currentID, 1)
@@ -68,7 +70,7 @@ func GetNoteByID(idStr string) (Note, error) {
 	}
 
 	for _, note := range notes {
-		if note.Id == id {
+		if note.ID == id {
 			return note, nil
 		}
 	}
@@ -93,7 +95,7 @@ func Count() int {
 
 func Add(n CreateNote) Note {
 	note := Note{
-		Id:      int(getNextID()),
+		ID:      int(getNextID()),
 		Title:   n.Title,
 		Body:    n.Body,
 		Created: time.Now(),
@@ -104,7 +106,7 @@ func Add(n CreateNote) Note {
 
 func Update(n Note) {
 	for i, note := range notes {
-		if note.Id == n.Id {
+		if note.ID == n.ID {
 			notes[i] = n
 			break
 		}
@@ -118,25 +120,24 @@ func Delete(idStr string) error {
 	}
 
 	for idx, note := range notes {
-		if note.Id == id {
+		if note.ID == id {
 			notes = append(notes[:idx], notes[idx+1:]...)
 			return nil
 		}
-
 	}
 	return fmt.Errorf("note with ID %d not found", id)
 }
 
 func findIndex(arr []Note, n int) (int, bool) {
-	var index int = -1
+	index := -1
 
 	// Initialize to -1 to represent no ID found yet
 	maxID := -1
 
 	for i, elem := range arr {
-		if elem.Id < n && elem.Id > maxID {
+		if elem.ID < n && elem.ID > maxID {
 			index = i
-			maxID = elem.Id
+			maxID = elem.ID
 		}
 	}
 

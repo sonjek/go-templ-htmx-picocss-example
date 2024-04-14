@@ -18,14 +18,14 @@ templ noteData(note notes.Note) {
                         <ul dir="rtl">
                             <li><small><a class="contrast"
                                 hx-trigger="click"
-                                hx-get={ "/edit/" + strconv.Itoa(note.Id) }
+                                hx-get={ "/edit/" + strconv.Itoa(note.ID) }
                                 hx-target="#dialog"
                                 hx-target-error="#error"
                                 hx-swap="outerHTML">Edit <ion-icon name="create"/></a></small></li>
                             <li><small><a class="contrast"
                                 hx-trigger="click"
-                                hx-delete={ "/note/" + strconv.Itoa(note.Id) }
-                                hx-target={ "#note-" + strconv.Itoa(note.Id) }
+                                hx-delete={ "/note/" + strconv.Itoa(note.ID) }
+                                hx-target={ "#note-" + strconv.Itoa(note.ID) }
                                 hx-target-error="#error"
                                 hx-swap="outerHTML">Delete <ion-icon name="trash"/></a></small></li>
                         </ul>
@@ -43,15 +43,15 @@ templ noteData(note notes.Note) {
 }
 
 templ NoteItem(note notes.Note) {
-	<article id={ "note-" + strconv.Itoa(note.Id) }>
+	<article id={ "note-" + strconv.Itoa(note.ID) }>
 		@noteData(note)
 	</article>
 }
 
 templ LastNote(note notes.Note) {
 	<article
-        id={ "note-" + strconv.Itoa(note.Id) }
-        hx-get={ "/notes/load-more?note=" + strconv.Itoa(note.Id) }
+        id={ "note-" + strconv.Itoa(note.ID) }
+        hx-get={ "/notes/load-more?note=" + strconv.Itoa(note.ID) }
         hx-push-url="false"
         hx-trigger="intersect once"
         hx-target="#notes"
