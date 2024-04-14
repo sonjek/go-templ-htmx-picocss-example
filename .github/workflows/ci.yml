@@ -28,6 +28,8 @@ jobs:
       with:
         go-version-file: go.mod
         check-latest: true
+    - name: Install tools
+      run: make tools
     - name: Run build
       run: make build
     - name: Run tests
@@ -44,5 +46,7 @@ jobs:
       with:
         go-version-file: go.mod
         check-latest: true
+    - name: Install tools
+      run: make tools
     - name: Build
       run: make build
