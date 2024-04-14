@@ -52,3 +52,8 @@ build-docker:
 .PHONY: run-docker
 run-docker:
 	docker run --rm -it -p 8080:8080 $(shell basename $(PWD)):latest
+
+## test: Run unit tests
+.PHONY: test
+test:
+	@go test ./...

@@ -1,0 +1,51 @@
+name: files-changed
+
+on:
+  workflow_call:
+    outputs:
+      app:
+        value: ${{ jobs.detect.outputs.app }}
+      actions:
+        value: ${{ jobs.detect.outputs.actions }}
+      lint:
+        value: ${{ jobs.detect.outputs.lint }}
+      docs:
+        value: ${{ jobs.detect.outputs.docs }}
+
+jobs:
+  detect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    outputs:
+      app: ${{ steps.changes.outputs.app }}
+      actions: ${{ steps.changes.outputs.actions }}
+      lint: ${{ steps.changes.outputs.lint }}
+      docs: ${{ steps.changes.outputs.docs }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+
+            app:
+              - "**/*.go"
+              - "**/*.templ"
+              - "go.mod"
+              - "go.sum"
+              - "Makefile"
+
+            actions:
+              - added|modified:
+                - ".github/workflows/*"
+                - "Makefile"
+
+            lint:
+              - added|modified:
+                - "**/*.go"
+                - ".golangci.yml"
+
+            docs:
+              - "**/*.md"
