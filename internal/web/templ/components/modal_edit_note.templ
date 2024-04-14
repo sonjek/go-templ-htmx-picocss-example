@@ -8,8 +8,8 @@ import (
 templ ModalEditNote(note notes.Note) {
     <dialog open id="dialog">
         <form
-            hx-put={ "/note/" + strconv.Itoa(note.Id) }
-            hx-target={ "#note-" + strconv.Itoa(note.Id) }
+            hx-put={ "/note/" + strconv.Itoa(note.ID) }
+            hx-target={ "#note-" + strconv.Itoa(note.ID) }
             hx-target-error="#error"
             hx-swap="outerHTML"
             hx-indicator=".htmx-indicator"
