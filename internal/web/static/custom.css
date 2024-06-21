@@ -5,6 +5,7 @@
   --pico-nav-link-spacing-vertical: 0rem;
   --pico-border-radius: 0.3rem;
   --pico-spacing: 0.9rem;
+  --pico-font-size: 110%;
 }
 
 fieldset {
