@@ -26,6 +26,7 @@ func CreateMiddlewareStack(ms ...Middleware) Middleware {
 }
 
 func (w *wrappedWriter) WriteHeader(sc int) {
+	w.ResponseWriter.WriteHeader(sc)
 	w.statusCode = sc
 }
 
