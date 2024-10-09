@@ -1,27 +1,9 @@
 
+# -------------------------------------------------------------------------------------------------
+# main
+# -------------------------------------------------------------------------------------------------
 
-## help: Display help
-.PHONY: help
-help: Makefile
-	@echo "Usage:  make COMMAND"
-	@echo
-	@echo "Commands:"
-	@sed -n 's/^##//p' $< | column -ts ':' |  sed -e 's/^/ /'
-
-## tools: Install github.com/a-h/templ/cmd/templ@latest
-.PHONY: tools
-tools:
-	go install github.com/a-h/templ/cmd/templ@latest
-
-## get-deps: Download go dependencies
-.PHONY: get-deps
-get-deps:
-	go mod download
-
-## generate: Compile templ files
-.PHONY: generate
-generate:
-	~/go/bin/templ generate
+all: help
 
 ## build: Compile templ files and build application
 .PHONY: build
@@ -33,16 +15,6 @@ build: get-deps generate
 start: get-deps generate
 	go run ./cmd/app
 
-## get-air: Install live reload server github.com/cosmtrek/air@latest
-.PHONY: get-air
-get-air:
-	go install github.com/cosmtrek/air@latest
-
-## air: Build and start application in live reload mode via air
-.PHONY: air
-air: get-deps generate
-	air
-
 ## build-docker: Build Docker container image with this app
 .PHONY: build-docker
 build-docker:
@@ -53,7 +25,48 @@ build-docker:
 run-docker:
 	docker run --rm -it -p 8080:8080 $(shell basename $(PWD)):latest
 
+# -------------------------------------------------------------------------------------------------
+# testing
+# -------------------------------------------------------------------------------------------------
+
 ## test: Run unit tests
 .PHONY: test
 test:
 	@go test ./...
+
+# -------------------------------------------------------------------------------------------------
+# tools && shared
+# -------------------------------------------------------------------------------------------------
+
+## get-deps: Download go dependencies
+.PHONY: get-deps
+get-deps:
+	go mod download
+
+## tools: Install github.com/a-h/templ/cmd/templ@latest
+.PHONY: tools
+tools:
+	go install github.com/a-h/templ/cmd/templ@latest
+
+## get-air: Install live reload server github.com/cosmtrek/air@latest
+.PHONY: get-air
+get-air:
+	go install github.com/cosmtrek/air@latest
+
+## generate: Compile templ files
+.PHONY: generate
+generate:
+	~/go/bin/templ generate
+
+## air: Build and start application in live reload mode via air
+.PHONY: air
+air: get-deps generate
+	air
+
+## help: Display help
+.PHONY: help
+help: Makefile
+	@echo "Usage:  make COMMAND"
+	@echo
+	@echo "Commands:"
+	@sed -n 's/^##//p' $< | column -ts ':' |  sed -e 's/^/ /'
