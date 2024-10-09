@@ -31,26 +31,31 @@ run-docker:
 
 ## test: Run unit tests
 .PHONY: test
-test:
+test: check-go
 	@go test ./...
 
 # -------------------------------------------------------------------------------------------------
 # tools && shared
 # -------------------------------------------------------------------------------------------------
 
+## tidy: Removes unused dependencies and adds missing ones
+.PHONY: tidy
+tidy: check-go
+	go mod tidy
+
 ## get-deps: Download go dependencies
 .PHONY: get-deps
-get-deps:
+get-deps: check-go
 	go mod download
 
 ## tools: Install github.com/a-h/templ/cmd/templ@latest
 .PHONY: tools
-tools:
+tools: check-go
 	go install github.com/a-h/templ/cmd/templ@latest
 
 ## get-air: Install live reload server github.com/cosmtrek/air@latest
 .PHONY: get-air
-get-air:
+get-air: check-go
 	go install github.com/cosmtrek/air@latest
 
 ## generate: Compile templ files
@@ -62,6 +67,11 @@ generate:
 .PHONY: air
 air: get-deps generate
 	air
+
+## check-go: Check that Go is installed
+.PHONY: check-go
+check-go:
+	@command -v go &> /dev/null || (echo "Please install GoLang" && false)
 
 ## help: Display help
 .PHONY: help
