@@ -21,6 +21,12 @@ func handleRenderError(err error) {
 	}
 }
 
+// Set header and render error message
+func sendErrorMsg(w http.ResponseWriter, r *http.Request, errorMsg string) {
+	w.WriteHeader(http.StatusBadRequest)
+	handleRenderError(components.ErrorMsg(errorMsg).Render(r.Context(), w))
+}
+
 func notesFunc(w http.ResponseWriter, r *http.Request) {
 	handleRenderError(page.Index(view.NotesView(notes.GetLatestNotes())).Render(r.Context(), w))
 }
@@ -34,8 +40,7 @@ func moreNotesFunc(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if noteID == -1 {
-		w.WriteHeader(http.StatusBadRequest)
-		handleRenderError(components.ErrorMsg("note is empty").Render(r.Context(), w))
+		sendErrorMsg(w, r, "Note is empty")
 		return
 	}
 
@@ -51,14 +56,12 @@ func addNoteModalFunc(w http.ResponseWriter, r *http.Request) {
 
 func addNoteFunc(w http.ResponseWriter, r *http.Request) {
 	if r.FormValue("title") == "" {
-		w.WriteHeader(http.StatusBadRequest)
-		handleRenderError(components.ErrorMsg("Title is empty").Render(r.Context(), w))
+		sendErrorMsg(w, r, "Title is empty")
 		return
 	}
 
 	if r.FormValue("body") == "" {
-		w.WriteHeader(http.StatusBadRequest)
-		handleRenderError(components.ErrorMsg("Body is empty").Render(r.Context(), w))
+		sendErrorMsg(w, r, "Body is empty")
 		return
 	}
 
@@ -75,8 +78,7 @@ func addNoteFunc(w http.ResponseWriter, r *http.Request) {
 func editNoteModalFunc(w http.ResponseWriter, r *http.Request) {
 	note, err := notes.GetNoteByID(r.PathValue("id"))
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		handleRenderError(components.ErrorMsg(err.Error()).Render(r.Context(), w))
+		sendErrorMsg(w, r, err.Error())
 		return
 	}
 
@@ -85,21 +87,18 @@ func editNoteModalFunc(w http.ResponseWriter, r *http.Request) {
 
 func editNoteFunc(w http.ResponseWriter, r *http.Request) {
 	if r.FormValue("title") == "" {
-		w.WriteHeader(http.StatusBadRequest)
-		handleRenderError(components.ErrorMsg("Title is empty").Render(r.Context(), w))
+		sendErrorMsg(w, r, "Title is empty")
 		return
 	}
 
 	if r.FormValue("body") == "" {
-		w.WriteHeader(http.StatusBadRequest)
-		handleRenderError(components.ErrorMsg("Body is empty").Render(r.Context(), w))
+		sendErrorMsg(w, r, "Body is empty")
 		return
 	}
 
 	note, err := notes.GetNoteByID(r.PathValue("id"))
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		handleRenderError(components.ErrorMsg(err.Error()).Render(r.Context(), w))
+		sendErrorMsg(w, r, err.Error())
 		return
 	}
 
@@ -113,8 +112,7 @@ func editNoteFunc(w http.ResponseWriter, r *http.Request) {
 
 func deleteNoteFunc(w http.ResponseWriter, r *http.Request) {
 	if err := notes.Delete(r.PathValue("id")); err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		handleRenderError(components.ErrorMsg(err.Error()).Render(r.Context(), w))
+		sendErrorMsg(w, r, err.Error())
 	}
 }
 
