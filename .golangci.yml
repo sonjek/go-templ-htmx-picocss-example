@@ -48,6 +48,8 @@ linters-settings:
         disabled: true
       - name: cyclomatic
         disabled: true
+      - name: max-public-structs
+        disabled: true
       - name: unused-receiver
         disabled: true
       - name: unhandled-error
