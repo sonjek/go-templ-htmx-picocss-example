@@ -57,7 +57,7 @@ generate-web: check-go
 ## air: Build and start application in live reload mode via air
 .PHONY: air
 air: get-deps generate-web
-	go install github.com/cosmtrek/air@latest
+	go install github.com/air-verse/air@latest
 	air
 
 ## check-go: Check that Go is installed
