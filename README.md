@@ -22,24 +22,24 @@ Available makefile actions:
 Usage:  make COMMAND
 
 Commands:
-  help           Display help
-  tools          Install github.com/a-h/templ/cmd/templ@latest
-  get-deps       Download go dependencies
-  generate       Compile templ files
   build          Compile templ files and build application
   start          Build and start application
-  get-air        Install live reload server github.com/cosmtrek/air@latest
-  air            Build and start application in live reload mode via air
   build-docker   Build Docker container image with this app
   run-docker     Run Docker container image with this app
+  test           Run unit tests
+  tidy           Removes unused dependencies and adds missing ones
+  get-deps       Download go dependencies
+  generate-web   Compile templ files via github.com/a-h/templ/cmd/templ
+  air            Build and start application in live reload mode via air
+  check-go       Check that Go is installed
+  help           Display help
 ```
 
 ## Local Development Setup
 
 To get started, follow these steps:
 
-1) Run `make tools` to install the necessary tools.
-2) Run `make start` to download go dependencies, compile templ files, build application and finally start application.
+1) Run `make start` to download go dependencies, compile templ files, build application and finally start application.
 ```sh
 % make tools
 go install github.com/a-h/templ/cmd/templ@latest

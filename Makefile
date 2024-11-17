@@ -7,12 +7,12 @@ all: help
 
 ## build: Compile templ files and build application
 .PHONY: build
-build: get-deps generate
+build: get-deps generate-web
 	CGO_ENABLED=0 go build -ldflags="-s -w -extldflags '-static'" -trimpath -o 'bin/app' ./cmd/app
 
 ## start: Build and start application
 .PHONY: start
-start: get-deps generate
+start: get-deps generate-web
 	go run ./cmd/app
 
 ## build-docker: Build Docker container image with this app
@@ -48,24 +48,16 @@ tidy: check-go
 get-deps: check-go
 	go mod download
 
-## tools: Install github.com/a-h/templ/cmd/templ@latest
-.PHONY: tools
-tools: check-go
+## generate-web: Compile templ files via github.com/a-h/templ/cmd/templ
+.PHONY: generate-web
+generate-web: check-go
 	go install github.com/a-h/templ/cmd/templ@latest
-
-## get-air: Install live reload server github.com/cosmtrek/air@latest
-.PHONY: get-air
-get-air: check-go
-	go install github.com/cosmtrek/air@latest
-
-## generate: Compile templ files
-.PHONY: generate
-generate:
 	~/go/bin/templ generate
 
 ## air: Build and start application in live reload mode via air
 .PHONY: air
-air: get-deps generate
+air: get-deps generate-web
+	go install github.com/cosmtrek/air@latest
 	air
 
 ## check-go: Check that Go is installed
