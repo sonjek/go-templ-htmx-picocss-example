@@ -30,10 +30,8 @@ jobs:
       with:
         go-version-file: go.mod
         check-latest: true
-    - name: Install tools
-      run: make tools
     - name: Run generate templ files
-      run: make generate
+      run: make generate-web
     - name: Setup golangci-lint
       uses: golangci/golangci-lint-action@v4
       with:
@@ -52,10 +50,8 @@ jobs:
       with:
         go-version-file: go.mod
         check-latest: true
-    - name: Install tools
-      run: make tools
     - name: Run generate templ files
-      run: make generate
+      run: make generate-web
     - name: Run tests
       run: make test
   build:
@@ -70,7 +66,5 @@ jobs:
       with:
         go-version-file: go.mod
         check-latest: true
-    - name: Install tools
-      run: make tools
     - name: Build
       run: make build
