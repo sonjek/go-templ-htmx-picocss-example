@@ -15,14 +15,14 @@ import (
 	"github.com/sonjek/go-templ-htmx-picocss-example/internal/web/templ/view"
 )
 
-type WebServder struct {
+type Server struct {
 	mux *http.ServeMux
 }
 
-func NewServer() *WebServder {
+func NewServer() *Server {
 	mux := http.NewServeMux()
 
-	return &WebServder{
+	return &Server{
 		mux: mux,
 	}
 }
@@ -131,7 +131,7 @@ func deleteNoteFunc(w http.ResponseWriter, r *http.Request) {
 //go:embed static/*
 var staticFiles embed.FS
 
-func (ws WebServder) Start() {
+func (ws Server) Start() {
 	ws.mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		// Check if the requested URL is one of the defined handlers
 		// If not, redirect to the custom 404 page
