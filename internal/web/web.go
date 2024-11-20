@@ -15,6 +15,18 @@ import (
 	"github.com/sonjek/go-templ-htmx-picocss-example/internal/web/templ/view"
 )
 
+type WebServder struct {
+	mux *http.ServeMux
+}
+
+func NewWebServer() *WebServder {
+	mux := http.NewServeMux()
+
+	return &WebServder{
+		mux: mux,
+	}
+}
+
 func handleRenderError(err error) {
 	if err != nil {
 		fmt.Println("Render error: ", err)
@@ -119,13 +131,11 @@ func deleteNoteFunc(w http.ResponseWriter, r *http.Request) {
 //go:embed static/*
 var staticFiles embed.FS
 
-func Start() {
-	mux := http.NewServeMux()
-
-	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+func (ws WebServder) Start() {
+	ws.mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		// Check if the requested URL is one of the defined handlers
 		// If not, redirect to the custom 404 page
-		_, pattern := mux.Handler(r)
+		_, pattern := ws.mux.Handler(r)
 		if r.URL.Path != pattern {
 			http.Redirect(w, r, "/404", http.StatusSeeOther)
 			return
@@ -135,27 +145,27 @@ func Start() {
 		notesFunc(w, r)
 	})
 
-	mux.Handle("/404", templ.Handler(page.Index(view.NotFoundComponent()),
+	ws.mux.Handle("/404", templ.Handler(page.Index(view.NotFoundComponent()),
 		templ.WithStatus(http.StatusNotFound)))
 
-	mux.HandleFunc("/notes", notesFunc)
-	mux.HandleFunc("/notes/load-more", moreNotesFunc)
+	ws.mux.HandleFunc("/notes", notesFunc)
+	ws.mux.HandleFunc("/notes/load-more", moreNotesFunc)
 
-	mux.HandleFunc("/add", addNoteModalFunc)
-	mux.HandleFunc("POST /notes", addNoteFunc)
+	ws.mux.HandleFunc("/add", addNoteModalFunc)
+	ws.mux.HandleFunc("POST /notes", addNoteFunc)
 
-	mux.HandleFunc("/edit/{id}", editNoteModalFunc)
-	mux.HandleFunc("PUT /note/{id}", editNoteFunc)
-	mux.HandleFunc("DELETE /note/{id}", deleteNoteFunc)
+	ws.mux.HandleFunc("/edit/{id}", editNoteModalFunc)
+	ws.mux.HandleFunc("PUT /note/{id}", editNoteFunc)
+	ws.mux.HandleFunc("DELETE /note/{id}", deleteNoteFunc)
 
 	// Use embed.FS to create a file system from the embedded files
-	mux.Handle("/static/", http.FileServerFS(staticFiles))
+	ws.mux.Handle("/static/", http.FileServerFS(staticFiles))
 
 	fileSystem, err := fs.Sub(staticFiles, "static")
 	if err != nil {
 		panic(err)
 	}
-	mux.Handle("/favicon.ico", http.StripPrefix("/", http.FileServerFS(fileSystem)))
+	ws.mux.Handle("/favicon.ico", http.StripPrefix("/", http.FileServerFS(fileSystem)))
 
 	fmt.Println("Starting web interface on port: 8089")
 
@@ -167,7 +177,7 @@ func Start() {
 
 	server := &http.Server{
 		Addr:         ":8089",
-		Handler:      middlewares(mux),
+		Handler:      middlewares(ws.mux),
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 10 * time.Second,
 		IdleTimeout:  10 * time.Second,
