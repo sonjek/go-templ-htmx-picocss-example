@@ -19,7 +19,7 @@ type WebServder struct {
 	mux *http.ServeMux
 }
 
-func NewWebServer() *WebServder {
+func NewServer() *WebServder {
 	mux := http.NewServeMux()
 
 	return &WebServder{

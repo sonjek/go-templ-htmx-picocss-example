@@ -5,6 +5,6 @@ import (
 )
 
 func main() {
-	webServer := web.NewWebServer()
+	webServer := web.NewServer()
 	webServer.Start()
 }
