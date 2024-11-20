@@ -148,14 +148,14 @@ func Start() {
 	mux.HandleFunc("PUT /note/{id}", editNoteFunc)
 	mux.HandleFunc("DELETE /note/{id}", deleteNoteFunc)
 
-	// Use http.FS to create a file system from the embedded files
+	// Use embed.FS to create a file system from the embedded files
+	mux.Handle("/static/", http.FileServerFS(staticFiles))
+
 	fileSystem, err := fs.Sub(staticFiles, "static")
 	if err != nil {
 		panic(err)
 	}
-
-	mux.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.FS(fileSystem))))
-	mux.Handle("/favicon.ico", http.StripPrefix("/", http.FileServer(http.FS(fileSystem))))
+	mux.Handle("/favicon.ico", http.StripPrefix("/", http.FileServerFS(fileSystem)))
 
 	fmt.Println("Starting web interface on port: 8089")
 
