@@ -10,6 +10,7 @@ import (
 
 	"github.com/a-h/templ"
 	"github.com/sonjek/go-templ-htmx-picocss-example/internal/notes"
+	"github.com/sonjek/go-templ-htmx-picocss-example/internal/web/middleware"
 	"github.com/sonjek/go-templ-htmx-picocss-example/internal/web/templ/components"
 	"github.com/sonjek/go-templ-htmx-picocss-example/internal/web/templ/page"
 	"github.com/sonjek/go-templ-htmx-picocss-example/internal/web/templ/view"
@@ -170,9 +171,9 @@ func (ws Server) Start() {
 	fmt.Println("Starting web interface on port: 8089")
 
 	// Create stack for handle multiple middlewares
-	middlewares := CreateMiddlewareStack(
-		LoggingMiddleware,
-		DemoMiddleware,
+	middlewares := middleware.CreateMiddlewareStack(
+		middleware.LoggingMiddleware,
+		middleware.DemoMiddleware,
 	)
 
 	server := &http.Server{
