@@ -60,6 +60,22 @@ air: get-deps generate-web
 	go install github.com/air-verse/air@latest
 	air
 
+## format: Fix code format issues
+.PHONY: format
+format:
+	go run mvdan.cc/gofumpt@latest -w -l .
+
+## deadcode: Run deadcode tool for find unreachable functions
+deadcode:
+	go run golang.org/x/tools/cmd/deadcode@latest -test ./...
+
+## audit: Quality checks
+.PHONY: audit
+audit:
+	go mod verify
+	go vet ./...
+	go run golang.org/x/vuln/cmd/govulncheck@latest ./...
+
 ## check-go: Check that Go is installed
 .PHONY: check-go
 check-go:

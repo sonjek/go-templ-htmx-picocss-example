@@ -31,6 +31,9 @@ Commands:
   get-deps       Download go dependencies
   generate-web   Compile templ files via github.com/a-h/templ/cmd/templ
   air            Build and start application in live reload mode via air
+  format         Fix code format issues
+  deadcode       Run deadcode tool for find unreachable functions
+  audit          Quality checks
   check-go       Check that Go is installed
   help           Display help
 ```
