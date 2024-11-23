@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	handlers := handlers.NewHandler()
-	webServer := web.NewServer(handlers)
+	hs := handlers.NewHandler()
+	webServer := web.NewServer(hs)
 	webServer.Start()
 }
