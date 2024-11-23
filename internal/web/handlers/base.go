@@ -10,8 +10,7 @@ import (
 	"github.com/sonjek/go-templ-htmx-picocss-example/internal/web/templ/view"
 )
 
-type Handlers struct {
-}
+type Handlers struct{}
 
 func NewHandler() *Handlers {
 	return &Handlers{}
