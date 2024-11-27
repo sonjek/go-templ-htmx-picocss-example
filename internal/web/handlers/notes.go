@@ -5,97 +5,127 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/sonjek/go-templ-htmx-picocss-example/internal/notes"
 	"github.com/sonjek/go-templ-htmx-picocss-example/internal/web/templ/components"
 	"github.com/sonjek/go-templ-htmx-picocss-example/internal/web/templ/page"
 	"github.com/sonjek/go-templ-htmx-picocss-example/internal/web/templ/view"
 )
 
+const (
+	pageSize  = 2
+	timeoutMs = 300
+)
+
 func (h *Handlers) Notes(w http.ResponseWriter, r *http.Request) {
-	handleRenderError(page.Index(view.NotesView(notes.GetLatestNotes())).Render(r.Context(), w))
+	notes, err := h.noteService.LoadMore(0, pageSize)
+	if err != nil {
+		sendErrorMsg(w, r, "Note is empty")
+	}
+
+	// Timeout for show loader
+	time.Sleep(timeoutMs * time.Millisecond)
+
+	handleRenderError(page.Index(view.NotesView(notes)).Render(r.Context(), w))
 }
 
-func (h *Handlers) MoreNotes(w http.ResponseWriter, r *http.Request) {
-	noteID := -1
-	if p := r.URL.Query().Get("note"); p != "" {
-		if parsedNoteID, err := strconv.Atoi(p); err == nil {
-			noteID = parsedNoteID
+func (h *Handlers) LoadMoreNotes(w http.ResponseWriter, r *http.Request) {
+	cursor := -1
+	if p := r.URL.Query().Get("cursor"); p != "" {
+		if parsedCursor, err := strconv.Atoi(p); err == nil {
+			cursor = parsedCursor
 		}
 	}
 
-	if noteID == -1 {
+	notes, err := h.noteService.LoadMore(cursor, pageSize)
+	if err != nil {
 		sendErrorMsg(w, r, "Note is empty")
-		return
 	}
 
-	notesOnPage := notes.GetNextNotes(noteID)
+	// Timeout for show loader
+	time.Sleep(timeoutMs * time.Millisecond)
 
-	time.Sleep(250 * time.Millisecond)
-	handleRenderError(components.NotesList(notesOnPage).Render(r.Context(), w))
+	handleRenderError(components.NotesList(notes).Render(r.Context(), w))
 }
 
-func (h *Handlers) AddNoteModal(w http.ResponseWriter, r *http.Request) {
+func (h *Handlers) CreateNoteModal(w http.ResponseWriter, r *http.Request) {
 	handleRenderError(components.ModalAddNote().Render(r.Context(), w))
 }
 
-func (h *Handlers) AddNote(w http.ResponseWriter, r *http.Request) {
-	if r.FormValue("title") == "" {
+func (h *Handlers) CreateNote(w http.ResponseWriter, r *http.Request) {
+	title := r.FormValue("title")
+	if title == "" {
 		sendErrorMsg(w, r, "Title is empty")
 		return
 	}
 
-	if r.FormValue("body") == "" {
+	body := r.FormValue("body")
+	if body == "" {
 		sendErrorMsg(w, r, "Body is empty")
 		return
 	}
 
-	note := notes.Add(notes.CreateNote{
-		Title: r.FormValue("title"),
-		Body:  r.FormValue("body"),
-	})
+	note := h.noteService.Create(title, body)
 
-	time.Sleep(250 * time.Millisecond)
+	// Timeout for show loader
+	time.Sleep(timeoutMs * time.Millisecond)
 
 	handleRenderError(components.NoteItem(note).Render(r.Context(), w))
 }
 
 func (h *Handlers) EditNoteModal(w http.ResponseWriter, r *http.Request) {
-	note, err := notes.GetNoteByID(r.PathValue("id"))
-	if err != nil {
-		sendErrorMsg(w, r, err.Error())
+	noteID := -1
+	if p := r.PathValue("id"); p != "" {
+		if parsedNoteID, err := strconv.Atoi(p); err == nil {
+			noteID = parsedNoteID
+		}
+	}
+
+	if noteID < 1 {
+		sendErrorMsg(w, r, "Wrong note ID")
 		return
 	}
+
+	note := h.noteService.Get(noteID)
 
 	handleRenderError(components.ModalEditNote(note).Render(r.Context(), w))
 }
 
 func (h *Handlers) EditNote(w http.ResponseWriter, r *http.Request) {
-	if r.FormValue("title") == "" {
+	title := r.FormValue("title")
+	if title == "" {
 		sendErrorMsg(w, r, "Title is empty")
 		return
 	}
 
-	if r.FormValue("body") == "" {
+	body := r.FormValue("body")
+	if body == "" {
 		sendErrorMsg(w, r, "Body is empty")
 		return
 	}
 
-	note, err := notes.GetNoteByID(r.PathValue("id"))
-	if err != nil {
-		sendErrorMsg(w, r, err.Error())
-		return
+	noteID := -1
+	if p := r.PathValue("id"); p != "" {
+		if parsedNoteID, err := strconv.Atoi(p); err == nil {
+			noteID = parsedNoteID
+		}
 	}
 
-	note.Title = r.FormValue("title")
-	note.Body = r.FormValue("body")
-	notes.Update(note)
+	note := h.noteService.FindAndUpdate(noteID, title, body)
 
-	time.Sleep(250 * time.Millisecond)
+	// Timeout for show loader
+	time.Sleep(timeoutMs * time.Millisecond)
+
 	handleRenderError(components.NoteItem(note).Render(r.Context(), w))
 }
 
 func (h *Handlers) DeleteNote(w http.ResponseWriter, r *http.Request) {
-	if err := notes.Delete(r.PathValue("id")); err != nil {
-		sendErrorMsg(w, r, err.Error())
+	noteID := r.PathValue("id")
+	if noteID == "" {
+		sendErrorMsg(w, r, "Note ID is empty")
+		return
 	}
+
+	// Timeout for show loader
+	time.Sleep(timeoutMs * time.Millisecond)
+
+	h.noteService.Delete(noteID)
 }

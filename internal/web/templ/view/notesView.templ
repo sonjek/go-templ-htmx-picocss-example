@@ -1,9 +1,9 @@
 package view
 
-import "github.com/sonjek/go-templ-htmx-picocss-example/internal/notes"
+import "github.com/sonjek/go-templ-htmx-picocss-example/internal/storage"
 import "github.com/sonjek/go-templ-htmx-picocss-example/internal/web/templ/components"
 
-templ NotesView(notes []notes.Note) {
+templ NotesView(notes []storage.Note) {
     <h2 class="align-center">Notes</h2>
     <div class="grid">
         <p class="align-right">

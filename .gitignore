@@ -6,3 +6,5 @@ tmp
 # Ignore compiled templ files
 internal/web/**/*_templ.go
 internal/web/**/*_templ.txt
+
+*.db
