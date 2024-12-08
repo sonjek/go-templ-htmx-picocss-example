@@ -1,6 +1,6 @@
 # go-templ-htmx-picocss-example
 
-Example CRUD app based on [Go](https://github.com/golang/go) + [templ](https://github.com/a-h/templ) + [</>htmx](https://github.com/bigskysoftware/htmx) + [PicoCSS](https://github.com/picocss/pico) + [Ionicons](https://github.com/ionic-team/ionicons)
+Example of a Web CRUD app based on [Go](https://github.com/golang/go) + ([sqlite](https://gitlab.com/cznic/sqlite) + [gorm](https://github.com/go-gorm/gorm)) + [templ](https://github.com/a-h/templ) + [</>htmx](https://github.com/bigskysoftware/htmx) + [PicoCSS](https://github.com/picocss/pico) + [Ionicons](https://github.com/ionic-team/ionicons)
 
 
 ![demo](demo.gif)
@@ -8,6 +8,7 @@ Example CRUD app based on [Go](https://github.com/golang/go) + [templ](https://g
 Features:
 - Comfortable and flexible component based templates via [templ](https://github.com/a-h/templ)
 - CRUD functionality
+- Persistent storage via [SQLite](https://gitlab.com/cznic/sqlite) + ORM ([gorm](https://github.com/go-gorm/gorm))
 - Modal windows
 - Error handling on user interface side
 - Infinite scroll (Lazy Loading)

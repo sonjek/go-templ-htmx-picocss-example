@@ -1,12 +1,19 @@
 package main
 
 import (
+	"github.com/sonjek/go-templ-htmx-picocss-example/internal/service"
+	"github.com/sonjek/go-templ-htmx-picocss-example/internal/storage"
 	"github.com/sonjek/go-templ-htmx-picocss-example/internal/web"
 	"github.com/sonjek/go-templ-htmx-picocss-example/internal/web/handlers"
 )
 
 func main() {
-	hs := handlers.NewHandler()
-	webServer := web.NewServer(hs)
+	db := storage.NewDbStorage()
+	storage.DBMigrate(db)
+	storage.SeedData(db)
+
+	noteService := service.NewNoteService(db)
+	appHandlers := handlers.NewHandler(db, noteService)
+	webServer := web.NewServer(appHandlers)
 	webServer.Start()
 }

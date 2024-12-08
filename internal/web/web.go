@@ -42,9 +42,9 @@ func (ws Server) Start() {
 	})
 
 	ws.mux.HandleFunc("/notes", ws.handlers.Notes)
-	ws.mux.HandleFunc("/notes/load-more", ws.handlers.MoreNotes)
-	ws.mux.HandleFunc("/add", ws.handlers.AddNoteModal)
-	ws.mux.HandleFunc("POST /notes", ws.handlers.AddNote)
+	ws.mux.HandleFunc("/notes/load-more", ws.handlers.LoadMoreNotes)
+	ws.mux.HandleFunc("/add", ws.handlers.CreateNoteModal)
+	ws.mux.HandleFunc("POST /notes", ws.handlers.CreateNote)
 	ws.mux.HandleFunc("/edit/{id}", ws.handlers.EditNoteModal)
 	ws.mux.HandleFunc("PUT /note/{id}", ws.handlers.EditNote)
 	ws.mux.HandleFunc("DELETE /note/{id}", ws.handlers.DeleteNote)

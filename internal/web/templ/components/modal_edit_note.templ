@@ -2,10 +2,10 @@ package components
 
 import (
     "strconv"
-    "github.com/sonjek/go-templ-htmx-picocss-example/internal/notes"
+    "github.com/sonjek/go-templ-htmx-picocss-example/internal/storage"
 )
 
-templ ModalEditNote(note notes.Note) {
+templ ModalEditNote(note storage.Note) {
     <dialog open id="dialog">
         <form
             hx-put={ "/note/" + strconv.Itoa(note.ID) }

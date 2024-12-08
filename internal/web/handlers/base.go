@@ -5,15 +5,23 @@ import (
 	"net/http"
 
 	"github.com/a-h/templ"
+	"github.com/sonjek/go-templ-htmx-picocss-example/internal/service"
 	"github.com/sonjek/go-templ-htmx-picocss-example/internal/web/templ/components"
 	"github.com/sonjek/go-templ-htmx-picocss-example/internal/web/templ/page"
 	"github.com/sonjek/go-templ-htmx-picocss-example/internal/web/templ/view"
+	"gorm.io/gorm"
 )
 
-type Handlers struct{}
+type Handlers struct {
+	db          *gorm.DB
+	noteService *service.NoteService
+}
 
-func NewHandler() *Handlers {
-	return &Handlers{}
+func NewHandler(db *gorm.DB, ns *service.NoteService) *Handlers {
+	return &Handlers{
+		noteService: ns,
+		db:          db,
+	}
 }
 
 func handleRenderError(err error) {

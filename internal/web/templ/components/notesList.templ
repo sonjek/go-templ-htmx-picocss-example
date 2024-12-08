@@ -1,8 +1,8 @@
 package components
 
-import "github.com/sonjek/go-templ-htmx-picocss-example/internal/notes"
+import "github.com/sonjek/go-templ-htmx-picocss-example/internal/storage"
 
-templ NotesList(notes []notes.Note) {
+templ NotesList(notes []storage.Note) {
     if len(notes) != 0 {
         for index, note := range notes {
             if (index == len(notes)-1) {

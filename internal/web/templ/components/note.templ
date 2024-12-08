@@ -1,9 +1,12 @@
 package components
 
-import "github.com/sonjek/go-templ-htmx-picocss-example/internal/notes"
-import "strconv"
+import (
+    "strconv"
+    "github.com/sonjek/go-templ-htmx-picocss-example/pkg/utils"
+    "github.com/sonjek/go-templ-htmx-picocss-example/internal/storage"
+)
 
-templ noteData(note notes.Note) {
+templ noteData(note storage.Note) {
     <header>
         <nav>
             <ul>
@@ -38,20 +41,20 @@ templ noteData(note notes.Note) {
         { note.Body }
     </p>
     <footer>
-        <small class="align-right"><ion-icon name="calendar-outline"></ion-icon> <ins data-tooltip={ note.FormatCreated() }>{ note.FormatCreatedAgo() }</ins></small>
+        <small class="align-right"><ion-icon name="calendar-outline"></ion-icon> <ins data-tooltip={ utils.FormatToAgo(note.CreatedAt) }>{ utils.FormatToDateTime(note.CreatedAt) }</ins></small>
     </footer>
 }
 
-templ NoteItem(note notes.Note) {
+templ NoteItem(note storage.Note) {
 	<article id={ "note-" + strconv.Itoa(note.ID) }>
 		@noteData(note)
 	</article>
 }
 
-templ LastNote(note notes.Note) {
+templ LastNote(note storage.Note) {
 	<article
         id={ "note-" + strconv.Itoa(note.ID) }
-        hx-get={ "/notes/load-more?note=" + strconv.Itoa(note.ID) }
+        hx-get={ "/notes/load-more?cursor=" + strconv.Itoa(note.ID) }
         hx-push-url="false"
         hx-trigger="intersect once"
         hx-target="#notes"
