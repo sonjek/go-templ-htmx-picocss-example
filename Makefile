@@ -32,7 +32,7 @@ run-docker:
 ## test: Run unit tests
 .PHONY: test
 test: check-go
-	@go test ./...
+	@go test -v -count=1 ./...
 
 # -------------------------------------------------------------------------------------------------
 # tools && shared
