@@ -32,7 +32,8 @@ func TestFormatToAgo(t *testing.T) {
 		{
 			name:           "1 week ago",
 			input:          now.Add(-7 * 24 * time.Hour),
-			expectedOutput: "1 week ago"},
+			expectedOutput: "1 week ago",
+		},
 		{
 			name:           "4 minutes from now",
 			input:          now.Add(5 * time.Minute),
