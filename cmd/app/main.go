@@ -13,7 +13,7 @@ func main() {
 	storage.SeedData(db)
 
 	noteService := service.NewNoteService(db)
-	handlers := handlers.NewHandler(db, noteService)
-	webServer := web.NewServer(handlers)
+	appHandlers := handlers.NewHandler(db, noteService)
+	webServer := web.NewServer(appHandlers)
 	webServer.Start()
 }

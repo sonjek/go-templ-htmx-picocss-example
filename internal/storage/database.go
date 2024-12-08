@@ -1,11 +1,11 @@
 package storage
 
 import (
-	_ "embed"
+	_ "embed" //nolint:blank-imports
 
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	_ "modernc.org/sqlite"
+	_ "modernc.org/sqlite" //nolint:blank-imports
 )
 
 // Can be set to file::memory:?cache=shared
