@@ -29,6 +29,7 @@ Commands:
   run-docker     Run Docker container image with this app
   test           Run unit tests
   tidy           Removes unused dependencies and adds missing ones
+  update-deps    Update go dependencies
   get-deps       Download go dependencies
   generate-web   Compile templ files via github.com/a-h/templ/cmd/templ
   air            Build and start application in live reload mode via air
