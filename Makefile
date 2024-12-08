@@ -43,6 +43,12 @@ test: check-go
 tidy: check-go
 	go mod tidy
 
+## update-deps: Update go dependencies
+.PHONY: update-deps
+update-deps: check-go
+	go get -u ./...
+	-@$(MAKE) tidy
+
 ## get-deps: Download go dependencies
 .PHONY: get-deps
 get-deps: check-go
